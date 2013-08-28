@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "model.h"
+#include "camera.h"
 #include <QtOpenGL>
 #include <QGLShaderProgram>
 #include <QGLFunctions>
@@ -15,6 +16,11 @@ public:
     ~MainWindow();
 
 protected:
+        void mousePressEvent(QMouseEvent *event);
+        void mouseMoveEvent(QMouseEvent *event);
+        void wheelEvent(QWheelEvent *event);
+        void keyPressEvent(QKeyEvent* event);
+        void keyReleaseEvent(QKeyEvent *event);
         void initializeGL();
         void resizeGL(int width, int height);
         void paintGL();
@@ -23,6 +29,12 @@ private:
         float height,width;
         Model track;
         QGLShaderProgram shader;
+        Camera camera;
+        double dt;
+        QTimer *timer;
+        QTime dttimer;
+protected: Q_SLOT
+    void timeout();
 };
 
 

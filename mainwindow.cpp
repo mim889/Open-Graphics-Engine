@@ -1,13 +1,38 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QGLWidget(QGLFormat(), parent)
+    : QGLWidget(QGLFormat(), parent),camera(QVector3D(0.0,0.5,0.0))
 {
+    timer = new QTimer();
+    timer->start(5);
+    connect(timer ,SIGNAL(timeout()),this,SLOT(timeout()));
+    dttimer = QTime::currentTime();
 }
 
 MainWindow::~MainWindow()
 {
     
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    camera.mousePressEvent(event);
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    camera.mouseMoveEvent(event);
+}
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
+    camera.wheelEvent(event);
+}
+void MainWindow::keyPressEvent(QKeyEvent* event)
+{
+    camera.keyPressEvent(event);
+}
+void MainWindow::keyReleaseEvent(QKeyEvent *event )
+{
+    camera.keyRelaseEvent(event);
 }
 void MainWindow::initializeGL()
 {
@@ -20,6 +45,12 @@ void MainWindow::initializeGL()
     shader.addShaderFromSourceFile(QGLShader::Fragment, "fragmentShader.fsh");
     shader.link();
 }
+void MainWindow::timeout()
+{
+    updateGL();
+    dt = dttimer.elapsed()/(double)1000;
+    dttimer = QTime::currentTime();
+}
 void MainWindow::resizeGL(int width, int height)
 {
     if (height == 0)
@@ -31,21 +62,15 @@ void MainWindow::resizeGL(int width, int height)
     pMatrix.setToIdentity();
     pMatrix.perspective(60.0, (float) width / (float) height, 0.1, 1000);     //ustawianie macierzy projekcji
     glViewport(0, 0, width, height);
+    updateGL();
 }
 void MainWindow::paintGL()
 {
     QMatrix4x4 mMatrix;                                     //macierz model
-    QMatrix4x4 vMatrix;
-    double distance = 0.5;
-    QMatrix4x4 cameraTransformation;
-    QVector3D position(10.0,0.5,0.0);
-    double alpha = 0.3;
-    QVector3D cameraUpDirection = cameraTransformation * QVector3D(0, 1, 0);                  //kamera 3D
-    QVector3D cameraViev = position;
-    vMatrix.lookAt(position-QVector3D(distance*sin(alpha)*distance*0.5,0,distance*cos(alpha)*distance*0.5), cameraViev, cameraUpDirection);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     //czyścimy bufor koloru i głębi
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    track.Draw(shader,pMatrix,vMatrix,mMatrix,QVector3D(100.0,100.0,100.0));
+    track.Draw(shader,pMatrix,camera.CamLookAt(),mMatrix,QVector3D(100.0,100.0,100.0));
     glDisable(GL_BLEND);
 }

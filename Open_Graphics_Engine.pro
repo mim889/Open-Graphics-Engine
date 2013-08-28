@@ -15,7 +15,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    model.cpp
+    model.cpp \
+    camera.cpp \
+    help_func.cpp \
+    keyboardcontrol.cpp \
+    mousecontrol.cpp
 
 HEADERS  += mainwindow.h \
-    model.h
+    model.h \
+    camera.h \
+    help_func.h \
+    keyboardcontrol.h \
+    mousecontrol.h
