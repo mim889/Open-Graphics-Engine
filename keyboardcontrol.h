@@ -6,6 +6,7 @@ class KeyboardControl
 {
 public:
     KeyboardControl();
+    ~KeyboardControl();
     virtual void keyPressEvent(QKeyEvent* event);
     virtual void keyRelaseEvent(QKeyEvent* event);
 protected:

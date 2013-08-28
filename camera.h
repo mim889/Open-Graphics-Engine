@@ -41,9 +41,7 @@ private:
     double beta;
     double distance;
     double MouseSensitive;
-    QPoint lastMousePosition;
     QVector<Qt::Key> KeyUp,KeyDown,KeyRight,KeyLeft,KeyPlus,KeyMinus;    //klawisze do obsługi kamery
-
 protected:
 
 

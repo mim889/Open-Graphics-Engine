@@ -19,11 +19,13 @@ SOURCES += main.cpp\
     camera.cpp \
     help_func.cpp \
     keyboardcontrol.cpp \
-    mousecontrol.cpp
+    mousecontrol.cpp \
+    errorlog.cpp
 
 HEADERS  += mainwindow.h \
     model.h \
     camera.h \
     help_func.h \
     keyboardcontrol.h \
-    mousecontrol.h
+    mousecontrol.h \
+    errorlog.h

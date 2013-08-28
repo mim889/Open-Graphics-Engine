@@ -13,7 +13,10 @@ MainWindow::~MainWindow()
 {
     
 }
-
+QSize MainWindow::sizeHint() const
+{
+    return QSize(640, 480);
+}
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     camera.mousePressEvent(event);

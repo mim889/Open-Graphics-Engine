@@ -14,7 +14,7 @@ class MainWindow : public QGLWidget, public QGLFunctions
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    QSize sizeHint() const;
 protected:
         void mousePressEvent(QMouseEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
@@ -24,17 +24,20 @@ protected:
         void initializeGL();
         void resizeGL(int width, int height);
         void paintGL();
+
 private:
         QMatrix4x4 pMatrix;             //macierz projekcji
-        float height,width;
-        Model track;
+        float height,width;         //rozmary ekranu
+        Model track;        //przykładowy model
         QGLShaderProgram shader;
         Camera camera;
         double dt;
-        QTimer *timer;
-        QTime dttimer;
+        QTimer *timer;  //timer do obsługi paintGL
+        QTime dttimer;  //
+
+
 protected: Q_SLOT
-    void timeout();
+        void timeout();
 };
 
 

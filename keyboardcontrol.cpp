@@ -3,6 +3,11 @@
 KeyboardControl::KeyboardControl()
 {
 }
+KeyboardControl::~KeyboardControl()
+{
+
+}
+
 void KeyboardControl::keyRelaseEvent(QKeyEvent* event)
 {
     int number = 0;
