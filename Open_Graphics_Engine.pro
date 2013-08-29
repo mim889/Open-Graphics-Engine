@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     help_func.cpp \
     keyboardcontrol.cpp \
     mousecontrol.cpp \
-    errorlog.cpp
+    errorlog.cpp \
+    opengraphicengine.cpp
 
 HEADERS  += mainwindow.h \
     model.h \
@@ -28,4 +29,5 @@ HEADERS  += mainwindow.h \
     help_func.h \
     keyboardcontrol.h \
     mousecontrol.h \
-    errorlog.h
+    errorlog.h \
+    opengraphicengine.h

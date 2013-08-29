@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QTextStream>
 #include <QFile>
+#define ERRORLOG 1
 namespace OGE
 {
 class ErrorLOG
@@ -28,8 +29,14 @@ public:
         static ErrorLOG singleton;
         return singleton;
     }
-};
 
+
+};
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+#elif (QT_VERSION <= QT_VERSION_CHECK(5, 0, 0))
+    void myMessageOutput(QtMsgType type, const char *msg);
+#endif
 
 }
 #endif // ERRORLOG_H

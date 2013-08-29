@@ -4,6 +4,10 @@ OGE::Model::Model()
 {
 
 }
+OGE::Model::Model(QString file_name,QString file_name_mtl)
+{
+    Load_OBJ(file_name,file_name_mtl);
+}
 OGE::Model::~Model()
 {
 
@@ -224,4 +228,50 @@ void OGE::Model::Draw(QGLShaderProgram & shaderProgram, QMatrix4x4 pMatrix,QMatr
 
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);         //rysujemy obiekt
     shaderProgram.release();
+}
+void OGE::Model::Draw(QGLShaderProgram & shaderProgram, QMatrix4x4 pMatrix, QMatrix4x4 vMatrix, QVector3D LightPosition)
+{
+    QMatrix4x4 mMatrix;
+
+    mMatrix.translate(position);
+    mMatrix.rotate(rotation.x(),1.0,0.0,0.0);
+    mMatrix.rotate(rotation.y(),0.0,1.0,0.0);
+    mMatrix.rotate(rotation.z(),0.0,0.0,1.0);
+    shaderProgram.bind();
+    shaderProgram.setUniformValue("mvpMatrix", pMatrix * vMatrix * mMatrix);       //ustawiamy wartości zmiennych uniform do shadera
+    shaderProgram.setUniformValue("mvMatrix", vMatrix * mMatrix);
+    shaderProgram.setUniformValue("normalMatrix", mMatrix.normalMatrix());
+    shaderProgram.setUniformValue("vLightPosition", LightPosition);
+
+    buffer->bind();
+    int offset = 0;
+    shaderProgram.setAttributeBuffer("vertex", GL_FLOAT, offset, 3, 0);
+    shaderProgram.enableAttributeArray("vertex");
+    offset += vertexCount * 3 * sizeof(GLfloat);
+    shaderProgram.setAttributeBuffer("color", GL_FLOAT, offset, 3, 0);
+    shaderProgram.enableAttributeArray("color");
+    offset += vertexCount * 3 * sizeof(GLfloat);
+    shaderProgram.setAttributeBuffer("normal", GL_FLOAT, offset, 3, 0);
+    shaderProgram.enableAttributeArray("normal");
+    buffer->release();
+
+    glDrawArrays(GL_TRIANGLES, 0, vertexCount);         //rysujemy obiekt
+    shaderProgram.release();
+}
+void OGE::Model::SetPosition(QVector3D pos)
+{
+    position = pos;
+}
+QVector3D OGE::Model::GetPosition()
+{
+    return position;
+}
+void OGE::Model::SetRotation(QVector3D roate)
+{
+    rotation = roate;
+}
+
+QVector3D OGE::Model::GetRototion()
+{
+    return rotation;
 }
