@@ -2,6 +2,8 @@
 #define MOUSECONTROL_H
 #include <QMouseEvent>
 #include <QPoint>
+namespace OGE
+{
 class MouseControl
 {
 public:
@@ -12,5 +14,5 @@ public:
 protected:
     QPoint lastMousePosition;
 };
-
+}
 #endif // MOUSECONTROL_H

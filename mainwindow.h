@@ -28,9 +28,9 @@ protected:
 private:
         QMatrix4x4 pMatrix;             //macierz projekcji
         float height,width;         //rozmary ekranu
-        Model track;        //przykładowy model
+        OGE::Model track;        //przykładowy model
         QGLShaderProgram shader;
-        Camera camera;
+        OGE::Camera camera;
         double dt;
         QTimer *timer;  //timer do obsługi paintGL
         QTime dttimer;  //

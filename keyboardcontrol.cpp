@@ -1,14 +1,14 @@
 #include "keyboardcontrol.h"
 
-KeyboardControl::KeyboardControl()
+OGE::KeyboardControl::KeyboardControl()
 {
 }
-KeyboardControl::~KeyboardControl()
+OGE::KeyboardControl::~KeyboardControl()
 {
 
 }
 
-void KeyboardControl::keyRelaseEvent(QKeyEvent* event)
+void OGE::KeyboardControl::keyRelaseEvent(QKeyEvent* event)
 {
     int number = 0;
     for(int i = 0; i < KeyStack.size();i++)
@@ -19,7 +19,7 @@ void KeyboardControl::keyRelaseEvent(QKeyEvent* event)
     KeyStack.removeAt(number);        //usuwamy klawisz który został naciśnięty z KeyStack
     event->accept();
 }
-void KeyboardControl::keyPressEvent(QKeyEvent* event)
+void OGE::KeyboardControl::keyPressEvent(QKeyEvent* event)
 {
     bool find = false;                    //zmienna potrzeba do sprawdzania czy klawisz jest na liście klawiszy
     for(int i = 0; i < KeyStack.size();i++)

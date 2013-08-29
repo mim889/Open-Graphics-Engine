@@ -1,6 +1,6 @@
 #include "camera.h"
 #include "help_func.h"
-Camera::Camera(QVector3D cam_position, bool addDefaultKeys):
+OGE::Camera::Camera(QVector3D cam_position, bool addDefaultKeys):
 
     alpha(0.0 ),
     beta (0.2),
@@ -19,63 +19,63 @@ Camera::Camera(QVector3D cam_position, bool addDefaultKeys):
         KeyMinus.push_back(Qt::Key_Minus);
     }
 }
-Camera::~Camera()
+OGE::Camera::~Camera()
 {
 
 }
-void Camera::SetMouseSensitive(double Sensitive)
+void OGE::Camera::SetMouseSensitive(double Sensitive)
 {
     MouseSensitive = Sensitive;
 }
-void Camera::AddKeyUp(Qt::Key key)
+void OGE::Camera::AddKeyUp(Qt::Key key)
 {
     KeyUp.push_back(key);
 }
-void Camera::AddKeyDown(Qt::Key key)
+void OGE::Camera::AddKeyDown(Qt::Key key)
 {
     KeyDown.push_back(key);
 }
-void Camera::AddKeyRight(Qt::Key key)
+void OGE::Camera::AddKeyRight(Qt::Key key)
 {
     KeyRight.push_back(key);
 }
-void Camera::AddKeyLeft(Qt::Key key)
+void OGE::Camera::AddKeyLeft(Qt::Key key)
 {
     KeyLeft.push_back(key);
 }
-void Camera::AddKeyPlus(Qt::Key key)
+void OGE::Camera::AddKeyPlus(Qt::Key key)
 {
     KeyPlus.push_back(key);
 }
-void Camera::AddKeyMinus(Qt::Key key)
+void OGE::Camera::AddKeyMinus(Qt::Key key)
 {
     KeyMinus.push_back(key);
 }
-void Camera::DeleteKeyUp(Qt::Key key)
+void OGE::Camera::DeleteKeyUp(Qt::Key key)
 {
     KeyUp.remove(KeyUp.indexOf(key));
 }
-void Camera::DeleteKeyDown(Qt::Key key)
+void OGE::Camera::DeleteKeyDown(Qt::Key key)
 {
     KeyDown.remove(KeyDown.indexOf(key));
 }
-void Camera::DeleteKeyRight(Qt::Key key)
+void OGE::Camera::DeleteKeyRight(Qt::Key key)
 {
     KeyRight.remove(KeyRight.indexOf(key));
 }
-void Camera::DeleteKeyLeft(Qt::Key key)
+void OGE::Camera::DeleteKeyLeft(Qt::Key key)
 {
     KeyLeft.remove(KeyLeft.indexOf(key));
 }
-void Camera::DeleteKeyPlus(Qt::Key key)
+void OGE::Camera::DeleteKeyPlus(Qt::Key key)
 {
     KeyPlus.remove(KeyPlus.indexOf(key));
 }
-void Camera::DeleteKeyMinus(Qt::Key key)
+void OGE::Camera::DeleteKeyMinus(Qt::Key key)
 {
     KeyMinus.remove(KeyMinus.indexOf(key));
 }
-void Camera::mouseMoveEvent(QMouseEvent *event)
+void OGE::Camera::mouseMoveEvent(QMouseEvent *event)
 {
     int deltaX = event->x() - lastMousePosition.x();
     if (event->buttons() & Qt::LeftButton)
@@ -89,7 +89,7 @@ void Camera::mouseMoveEvent(QMouseEvent *event)
      }
      event->accept();
 }
-void Camera::wheelEvent(QWheelEvent *event)
+void OGE::Camera::wheelEvent(QWheelEvent *event)
 {
     int delta = event->delta();
     if (event->orientation() == Qt::Vertical)
@@ -104,7 +104,7 @@ void Camera::wheelEvent(QWheelEvent *event)
     }
     event->accept();
 }
-QMatrix4x4 Camera::CamLookAt()
+QMatrix4x4 OGE::Camera::CamLookAt()
 {
     float moveSpeed = 0.1;
     for(int k = 0; k < KeyStack.size();k++)
@@ -186,11 +186,11 @@ QMatrix4x4 Camera::CamLookAt()
     }
     return vMatrix;
 }
-void Camera::CamSetyRotate(float yRoate)
+void OGE::Camera::CamSetyRotate(float yRoate)
 {
     alpha = yRoate;
 }
-void Camera::CamSetPosition(QVector3D pos)
+void OGE::Camera::CamSetPosition(QVector3D pos)
 {
     position = pos;
 }

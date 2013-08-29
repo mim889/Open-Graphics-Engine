@@ -1,18 +1,18 @@
 #include "mousecontrol.h"
 
-MouseControl::MouseControl()
+OGE::MouseControl::MouseControl()
 {
 }
-void MouseControl::mousePressEvent(QMouseEvent *event)
+void OGE::MouseControl::mousePressEvent(QMouseEvent *event)
 {
      lastMousePosition = event->pos();
      event->accept();
 }
-void MouseControl::mouseMoveEvent(QMouseEvent *event)
+void OGE::MouseControl::mouseMoveEvent(QMouseEvent *event)
 {
 
 }
-void MouseControl::wheelEvent(QWheelEvent *event)
+void OGE::MouseControl::wheelEvent(QWheelEvent *event)
 {
 
 }

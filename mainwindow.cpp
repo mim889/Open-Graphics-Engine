@@ -15,7 +15,7 @@ MainWindow::~MainWindow()
 }
 QSize MainWindow::sizeHint() const
 {
-    return QSize(640, 480);
+    return QSize(1080, 1890);
 }
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {

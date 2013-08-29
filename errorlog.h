@@ -4,7 +4,8 @@
 #include <QDebug>
 #include <QTextStream>
 #include <QFile>
-
+namespace OGE
+{
 class ErrorLOG
 {
 private:
@@ -30,5 +31,5 @@ public:
 };
 
 
-
+}
 #endif // ERRORLOG_H

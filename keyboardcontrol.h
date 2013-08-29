@@ -2,6 +2,8 @@
 #define KEYBOARDCONTROL_H
 #include <QList>
 #include <QKeyEvent>
+namespace OGE
+{
 class KeyboardControl
 {
 public:
@@ -12,5 +14,5 @@ public:
 protected:
     QList<int> KeyStack;
 };
-
+}
 #endif // KEYBOARDCONTROL_H

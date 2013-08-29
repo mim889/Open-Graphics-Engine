@@ -7,8 +7,9 @@
 #include <QMatrix4x4>
 #include <QWidget>
 #include <QEvent>
-
-class Camera :public KeyboardControl, public MouseControl
+namespace OGE
+{
+class Camera :public OGE::KeyboardControl, public OGE::MouseControl
 {
 public:
     Camera(QVector3D cam_position = QVector3D(0.0f,0.0f,0.0f), bool addDefaultKeys = true);
@@ -46,6 +47,7 @@ protected:
 
 
 };
+}
 
 
 #endif // CAMERA_H

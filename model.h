@@ -11,6 +11,8 @@
 #include <QDebug>
 #include <QGLBuffer>
 #include <QGLShaderProgram>
+namespace OGE
+{
 class Model
 {
 public:
@@ -23,5 +25,5 @@ private:
     unsigned int vertexCount;
     QGLBuffer *buffer;
 };
-
+}
 #endif // MODEL_H

@@ -1,15 +1,15 @@
 #include "model.h"
 
-Model::Model()
+OGE::Model::Model()
 {
 
 }
-Model::~Model()
+OGE::Model::~Model()
 {
 
 }
 
-void Model::Load_OBJ(QString file_name,QString file_name_mtl)
+void OGE::Model::Load_OBJ(QString file_name,QString file_name_mtl)
 {
     QString bufor;  //bufor do danych z QTextStream plików tekstowych
     QVector <QVector3D> vertices_tmp;       //tymczasowe wierzchołki
@@ -202,7 +202,7 @@ void Model::Load_OBJ(QString file_name,QString file_name_mtl)
     file_mtl.close();       //i pliku *.mtl
 
 }
-void Model::Draw(QGLShaderProgram & shaderProgram, QMatrix4x4 pMatrix,QMatrix4x4 vMatrix, QMatrix4x4 mMatrix, QVector3D LightPosition)
+void OGE::Model::Draw(QGLShaderProgram & shaderProgram, QMatrix4x4 pMatrix,QMatrix4x4 vMatrix, QMatrix4x4 mMatrix, QVector3D LightPosition)
 {
     shaderProgram.bind();
     shaderProgram.setUniformValue("mvpMatrix", pMatrix * vMatrix * mMatrix);       //ustawiamy wartości zmiennych uniform do shadera
