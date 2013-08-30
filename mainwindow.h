@@ -16,6 +16,8 @@ public:
 protected:
     void intializeOGE();
     void updateOGE(double dt);
+private:
+    OGE::Model *model;
 };
 
 

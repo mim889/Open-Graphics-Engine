@@ -11,8 +11,8 @@ OGE::OpenGraphicEngine::OpenGraphicEngine(QWidget *parent)
         #endif
     #endif
     timer = new QTimer();
-    timer->start(10);
-    connect(timer ,SIGNAL(timeout()),this,SLOT(update()));
+    connect(timer ,SIGNAL(timeout()),this,SLOT(updateEngine()));
+    timer->start(5);
     dttimer = QTime::currentTime();
 }
 OGE::OpenGraphicEngine::~OpenGraphicEngine()
@@ -53,12 +53,12 @@ void OGE::OpenGraphicEngine::initializeGL()
     shader.link();
     intializeOGE();
 }
-void OGE::OpenGraphicEngine::update()
+void OGE::OpenGraphicEngine::updateEngine()
 {
     dt = dttimer.elapsed()/(double)1000;
     dttimer = QTime::currentTime();
     updateOGE(dt);
-    paintGL();
+    updateGL();
 }
 void OGE::OpenGraphicEngine::resizeGL(int width, int height)
 {
@@ -79,7 +79,7 @@ void OGE::OpenGraphicEngine::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     //czyścimy bufor koloru i głębi
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    models[0]->Draw(shader,pMatrix,cameras[0]->CamLookAt(),mMatrix,QVector3D(100.0,100.0,100.0));
+    models[0]->Draw(shader,pMatrix,cameras[0]->CamLookAt(),QVector3D(100.0,100.0,100.0));
     glDisable(GL_BLEND);
 }
 void OGE::OpenGraphicEngine::AddModel(OGE::Model *model)

@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QTextStream>
 #include <QFile>
-#define ERRORLOG 1
+#define ERRORLOG 0 //1 -logowanie do pliku 0 - na konsole
 namespace OGE
 {
 class ErrorLOG

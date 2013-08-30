@@ -4,11 +4,14 @@
 #include "camera.h"
 #include "errorlog.h"
 #include <QVector>
+#include <QGLWidget>
+
 namespace OGE
 {
 
 class OpenGraphicEngine : public QGLWidget, public QGLFunctions
 {
+    Q_OBJECT
 public:
     OpenGraphicEngine(QWidget *parent = 0);
     ~OpenGraphicEngine();
@@ -35,8 +38,8 @@ protected:
         QTime dttimer;  //
         virtual void intializeOGE();
         virtual void updateOGE(double dt);
-protected: Q_SLOT
-        void update();
+public: Q_SLOT
+        void updateEngine();
 };
 
 }
