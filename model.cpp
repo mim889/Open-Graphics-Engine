@@ -2,7 +2,7 @@
 
 OGE::Model::Model()
 {
-
+    vertexCount = 0;
 }
 OGE::Model::Model(QString file_name,QString file_name_mtl)
 {
@@ -245,14 +245,14 @@ void OGE::Model::Draw(QGLShaderProgram & shaderProgram, QMatrix4x4 pMatrix, QMat
 
     buffer->bind();
     int offset = 0;
-    shaderProgram.setAttributeBuffer("vertex", GL_FLOAT, offset, 3, 0);
-    shaderProgram.enableAttributeArray("vertex");
+    shaderProgram.setAttributeBuffer("VertexPosition", GL_FLOAT, offset, 3, 0);
+    shaderProgram.enableAttributeArray("VertexPosition");
     offset += vertexCount * 3 * sizeof(GLfloat);
-    shaderProgram.setAttributeBuffer("color", GL_FLOAT, offset, 3, 0);
-    shaderProgram.enableAttributeArray("color");
+    shaderProgram.setAttributeBuffer("VertexColor", GL_FLOAT, offset, 3, 0);
+    shaderProgram.enableAttributeArray("VertexColor");
     offset += vertexCount * 3 * sizeof(GLfloat);
-    shaderProgram.setAttributeBuffer("normal", GL_FLOAT, offset, 3, 0);
-    shaderProgram.enableAttributeArray("normal");
+    shaderProgram.setAttributeBuffer("VertexNormal", GL_FLOAT, offset, 3, 0);
+    shaderProgram.enableAttributeArray("VertexNormal");
     buffer->release();
 
     glDrawArrays(GL_TRIANGLES, 0, vertexCount);         //rysujemy obiekt
@@ -274,4 +274,75 @@ void OGE::Model::SetRotation(QVector3D roate)
 QVector3D OGE::Model::GetRototion()
 {
     return rotation;
+}
+void OGE::Model::Load_Assimp(QString file_name)
+{
+    Assimp::Importer importer;
+    const aiScene *scene = importer.ReadFile(file_name.toStdString().c_str(),aiProcessPreset_TargetRealtime_Quality);//aiProcessPreset_TargetRealtime_Fast has the configs you'll need
+    //const aiScene *scene = new aiScene(*importer.ReadFile("models/models/Alice/Alice.DAE", aiProcessPreset_TargetRealtime_Fast));
+    if( !scene)
+      {
+            qDebug() << importer.GetErrorString();
+      }
+    //aiMesh *mesh = scene->mMeshes[0]; //assuming you only want the first mesh
+    //qDebug() << scene->mNumMeshes;
+
+
+    QVector <QVector3D> vertices;       //wierzchołki
+    QVector <QVector3D> normal;         //normalne
+    QVector <QVector2D> texture_coord;  //koordynanty tekstur
+    QVector <QVector3D> color;          //kolory wierzchołków
+    for(int meshessnum = 0;meshessnum < scene->mNumMeshes; meshessnum++)
+    {
+        aiMesh *mesh = scene->mMeshes[meshessnum];
+        vertexCount += mesh->mNumFaces*3;
+     for(unsigned int i=0;i<mesh->mNumFaces;i++)
+        {
+        const aiFace& face = mesh->mFaces[i];
+
+        //foreach index
+        for(int j=0;j<3;j++)//assume all faces are triangulated
+        {
+            aiVector3D uv = mesh->mTextureCoords[0][face.mIndices[j]];
+            //color.push_back(QVector3D(uv.x,uv.y,uv.z));
+
+            aiVector3D normalai = mesh->mNormals[face.mIndices[j]];
+            normal.push_back(QVector3D(normalai.x,normalai.y,normalai.z));
+
+            aiVector3D pos = mesh->mVertices[face.mIndices[j]];
+            vertices.push_back(QVector3D(pos.x,pos.y,pos.z));
+            if(mesh->HasVertexColors(face.mIndices[j]))
+            {
+                aiColor4D *colors = mesh->mColors[face.mIndices[j]];
+                color.push_back(QVector3D(colors->r,colors->g,colors->b));
+            }
+        }
+        }
+    }
+
+    //uvArray-=mesh->mNumFaces*3*2;
+    //normalArray-=mesh->mNumFaces*3*3;
+    //vertexArray-=mesh->mNumFaces*3*3;
+
+    buffer = new QGLBuffer;
+    buffer->create();
+    buffer->bind();
+    buffer->setUsagePattern(QGLBuffer::StaticDraw);
+    buffer->allocate(vertices.size() * (3 + 3 + 3) * sizeof(GLfloat));      //3 współrzędne wierzchołków 3 składowe koloru i 3 składowe wektora normalnego
+    int offset = 0;
+
+    buffer->write(offset,vertices.constData(),vertices.size() * 3 * sizeof(GLfloat));
+    offset += vertices.size() * 3 * sizeof(GLfloat);
+    buffer->write(offset, color.constData(), vertices.size() * 3 * sizeof(GLfloat));
+    offset += vertices.size() * 3 * sizeof(GLfloat);
+    buffer->write(offset, normal.constData(), vertices.size() * 3 * sizeof(GLfloat));
+    offset += vertices.size() * 2 * sizeof(GLfloat);
+    buffer->write(offset, texture_coord.constData(), vertices.size() * 3 * sizeof(GLfloat));
+    buffer->release();
+
+    if(!buffer->isCreated())
+    {
+        qDebug() << file_name;
+    }
+    vertexCount = vertices.size();
 }

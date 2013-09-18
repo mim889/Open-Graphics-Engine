@@ -5,6 +5,10 @@
 #include "errorlog.h"
 #include <QVector>
 #include <QGLWidget>
+QT_BEGIN_NAMESPACE
+class QGLSceneNode;
+class QWindow;
+QT_END_NAMESPACE
 
 namespace OGE
 {
@@ -38,6 +42,17 @@ protected:
         QTime dttimer;  //
         virtual void intializeOGE();
         virtual void updateOGE(double dt);
+
+        float *vertexArray;
+        float *normalArray;
+        float *uvArray;
+
+        int numTriangles;
+
+
+
+
+
 public: Q_SLOT
         void updateEngine();
 };

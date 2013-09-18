@@ -8,6 +8,8 @@
 #include <QGLFunctions>
 #include <QMainWindow>
 
+
+
 class MainWindow: public OGE::OpenGraphicEngine
 {
 public:
@@ -17,7 +19,8 @@ protected:
     void intializeOGE();
     void updateOGE(double dt);
 private:
-    OGE::Model *model;
+    //OGE::Model *model;
+
 };
 
 

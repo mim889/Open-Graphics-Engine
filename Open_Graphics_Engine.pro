@@ -31,3 +31,11 @@ HEADERS  += mainwindow.h \
     mousecontrol.h \
     errorlog.h \
     opengraphicengine.h
+
+RESOURCES += \
+    Source.qrc
+
+unix:!macx: LIBS += -L$$PWD/../../../../usr/local/lib/ -lassimp
+
+INCLUDEPATH += $$PWD/../../../../usr/local/include
+DEPENDPATH += $$PWD/../../../../usr/local/include

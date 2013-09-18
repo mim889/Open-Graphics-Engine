@@ -1,5 +1,6 @@
 #include "opengraphicengine.h"
 
+#include <QDebug>
 OGE::OpenGraphicEngine::OpenGraphicEngine(QWidget *parent)
     : QGLWidget(QGLFormat(), parent)
 {
@@ -14,6 +15,7 @@ OGE::OpenGraphicEngine::OpenGraphicEngine(QWidget *parent)
     connect(timer ,SIGNAL(timeout()),this,SLOT(updateEngine()));
     timer->start(5);
     dttimer = QTime::currentTime();
+
 }
 OGE::OpenGraphicEngine::~OpenGraphicEngine()
 {
@@ -48,9 +50,12 @@ void OGE::OpenGraphicEngine::initializeGL()
     glEnable(GL_DEPTH_TEST);        //włączamy testowanie głębokości
     glEnable(GL_CULL_FACE);         //włączamy obcinanie płaszczyzn tylnych
     glClearColor(0.3,0.7,0.8,1.0);       //ustawiamy czyszczenie bufora koloru na biały kolor
-    shader.addShaderFromSourceFile(QGLShader::Vertex, "vertexShader.vsh");       //ładowanie i kompilowanie shaderów
-    shader.addShaderFromSourceFile(QGLShader::Fragment, "fragmentShader.fsh");
+    shader.addShaderFromSourceFile(QGLShader::Vertex, ":/shaders/shaders/vertexShader.vsh");       //ładowanie i kompilowanie shaderów
+    shader.addShaderFromSourceFile(QGLShader::Fragment, ":/shaders/shaders/fragmentShader.fsh");
     shader.link();
+    QGLBuffer * byffer = new QGLBuffer;
+
+
     intializeOGE();
 }
 void OGE::OpenGraphicEngine::updateEngine()
@@ -75,12 +80,13 @@ void OGE::OpenGraphicEngine::resizeGL(int width, int height)
 }
 void OGE::OpenGraphicEngine::paintGL()
 {
-    QMatrix4x4 mMatrix;                                     //macierz model
+    QMatrix4x4 mMatrix;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     //czyścimy bufor koloru i głębi
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    models[0]->Draw(shader,pMatrix,cameras[0]->CamLookAt(),QVector3D(100.0,100.0,100.0));
+    models[0]->Draw(shader,pMatrix,cameras[0]->CamLookAt(),QVector3D(0.0,10.0,0.0));
     glDisable(GL_BLEND);
+
 }
 void OGE::OpenGraphicEngine::AddModel(OGE::Model *model)
 {
